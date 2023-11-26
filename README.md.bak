@@ -28,8 +28,6 @@ This project presents a container-based Docker Compose orchestrated solution for
 
 The project is containerized and orchestrated using Docker Compose, enabling seamless deployment and scaling of the microservices architecture.
 
-<img src="MicroservicesArchitecture.svg" >
-
 ## Getting Started
 
 To run this microservices architecture locally:
