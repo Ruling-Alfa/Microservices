@@ -1,5 +1,4 @@
-﻿using CrossCutting.Persistance.SQL;
-using CrossCutting.Persistance.SQL.Interfaces;
+﻿using CrossCutting.Persistance.SQL.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossCutting.Persistance.SQL.Configurations

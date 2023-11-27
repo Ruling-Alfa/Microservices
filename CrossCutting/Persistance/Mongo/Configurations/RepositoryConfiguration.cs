@@ -9,7 +9,7 @@ namespace CrossCutting.Persistance.Mongo.Configurations
         public static IServiceCollection ConfigureCrosscuttingMongoRepositorySettings(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<MongoDBSettings>(
-               configuration.GetSection("CatalogDatabaseSettings"));
+               configuration.GetSection("MongoDatabaseSettings"));
 
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
             return services;

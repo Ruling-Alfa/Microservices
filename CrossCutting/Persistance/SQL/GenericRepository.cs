@@ -52,6 +52,22 @@ namespace CrossCutting.Persistance.SQL
             return _dbSet.FindAsync(id);
         }
 
+        public virtual Task<bool> ExistsById(int id)
+        {
+            return _dbSet.AnyAsync(x => x.Id == id);
+        }
+
+        public virtual Task<TEntity> GetOneByQuery(Expression<Func<TEntity, bool>> filter)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            return query.FirstOrDefaultAsync();
+        }
+
         public virtual ValueTask<EntityEntry<TEntity>> Insert(TEntity entity)
         {
             return _dbSet.AddAsync(entity);

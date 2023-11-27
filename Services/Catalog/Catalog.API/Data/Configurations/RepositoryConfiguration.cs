@@ -1,7 +1,8 @@
 ﻿using Catalog.API.Data;
 using Catalog.API.Data.Interfaces;
+using CrossCutting.Persistance.Mongo.Configurations;
 
-namespace CrossCutting.Persistance.Mongo.Configurations
+namespace Catalog.API.Data.Configurations
 {
     public static class RepositoryConfiguration
     {

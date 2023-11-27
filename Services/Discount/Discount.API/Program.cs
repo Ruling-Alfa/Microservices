@@ -1,7 +1,7 @@
-using Catalog.API.Configurations;
-using Catalog.API.Data.Configurations;
+using Discount.API.Configurations;
+using Discount.API.Data.Configurations;
 
-namespace Catalog.API
+namespace Discount.API
 {
     public class Program
     {
@@ -10,9 +10,9 @@ namespace Catalog.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.ConfigureRepositorySettings(builder.Configuration);
-            builder.Services.ConfigureBusinessServices();
 
+            builder.Services.ConfigureBusinessServices();
+            builder.Services.ConfigureRepositorySettings(builder.Configuration);
             builder.Services.AddControllers(options =>
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
