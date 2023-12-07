@@ -13,7 +13,7 @@ namespace Basket.API
             // Add services to the container.
             builder.Services.ConfigureRedisCacheInfra(builder.Configuration);
             builder.Services.ConfigureDataServices();
-            builder.Services.ConfigureBusinessServices();
+            builder.Services.ConfigureBusinessServices(builder.Configuration);
 
             builder.Services.AddControllers(options =>
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);

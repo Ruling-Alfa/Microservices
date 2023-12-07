@@ -71,6 +71,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=8082
       - ASPNETCORE_HTTPS_PORTS=8083
       - RedisConnectionSettings__RedisUrl=basketdb:6379
+      - GrpcSettings__DiscountGrpcUrl=http://discount.grpc:8086 
     depends_on:
       - basketdb
     ports:
@@ -103,6 +104,8 @@ services:
       - ASPNETCORE_HTTP_PORTS=8086
       - ASPNETCORE_HTTPS_PORTS=8087
       - ConnectionStrings__DiscountContext=Server=discountdb;Port=5432;Database=DiscountDB;User Id=admin;Password=admin1234
+    depends_on:
+      - discountdb
     ports:
       - "8086:8086"
       - "8087:8087"

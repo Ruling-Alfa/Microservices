@@ -1,5 +1,6 @@
 ﻿using Basket.API.Business.Models;
 using Basket.API.Data.Interfaces;
+using Basket.API.GrpcServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers
@@ -10,9 +11,11 @@ namespace Basket.API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketService _basketService;
-        public BasketController(IBasketService basketService)
+        private readonly DiscountGrpcService _discountGrpcService;
+        public BasketController(IBasketService basketService, DiscountGrpcService discountGrpcService)
         {
             _basketService = basketService;
+            _discountGrpcService = discountGrpcService;
         }
 
         [HttpGet]
@@ -37,6 +40,11 @@ namespace Basket.API.Controllers
             if (basket is null || !basket.ShoppingCartItems.Any() || string.IsNullOrEmpty(basket.UserName))
             {
                 return BadRequest();
+            }
+            foreach(var basketItem in basket.ShoppingCartItems)
+            {
+                var coupoun = await _discountGrpcService.GetDiscount(basketItem.ProductName);
+                basketItem.Price -= coupoun.Amount;
             }
             var isSuccess = await _basketService.SetBasket(basket.UserName, basket);
             if (!isSuccess)
