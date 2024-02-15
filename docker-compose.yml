@@ -14,6 +14,9 @@ services:
     image: postgres
     command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
 
+  rabbitmq:
+    image: rabbitmq:management-alpine
+
   pgadmin:
     image: dpage/pgadmin4
 

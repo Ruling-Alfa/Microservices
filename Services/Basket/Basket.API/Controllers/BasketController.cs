@@ -1,7 +1,12 @@
-﻿using Basket.API.Business.Models;
+﻿using Asp.Versioning;
+using AutoMapper;
+using Basket.API.Business.Models;
 using Basket.API.Data.Interfaces;
 using Basket.API.GrpcServices;
+using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Basket.API.Controllers
 {
@@ -83,6 +88,30 @@ namespace Basket.API.Controllers
                 return NotFound();
             }
             return NoContent();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout, [FromServices] IMapper mapper,
+            [FromServices]IPublishEndpoint publishEndpoint)
+        {
+            if (basketCheckout is null || string.IsNullOrEmpty(basketCheckout.UserName))
+            {
+                return BadRequest();
+            }
+            var basket = await _basketService.GetBasket(basketCheckout.UserName);
+            if (basket is null)
+            {
+                return NotFound();
+            }
+
+            var eventMsg = mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMsg.TotalPrice = basket.TotalPrice;
+            //eventMsg.TotalPrice = basket.TotalPrice;
+            await publishEndpoint.Publish(eventMsg);
+
+            await _basketService.DeleteBasket(basketCheckout.UserName);
+            return Accepted();
         }
     }
 }

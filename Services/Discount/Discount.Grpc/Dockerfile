@@ -9,6 +9,7 @@ EXPOSE 8087
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["CrossCutting/CrossCutting.csproj", "CrossCutting/CrossCutting"]
 COPY ["Services/Discount/Discount.Grpc/Discount.Grpc.csproj", "Services/Discount/Discount.Grpc/"]
 RUN dotnet restore "./Services/Discount/Discount.Grpc/./Discount.Grpc.csproj"
 COPY . .

@@ -10,6 +10,8 @@ EXPOSE 8083
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["CrossCutting/CrossCutting.csproj", "CrossCutting/CrossCutting"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
 COPY ["Services/Basket/Basket.API/Basket.API.csproj", "Services/Basket/Basket.API/"]
 RUN dotnet restore "./Services/Basket/Basket.API/./Basket.API.csproj"
 COPY . .

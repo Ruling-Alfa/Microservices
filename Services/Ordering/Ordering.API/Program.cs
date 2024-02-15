@@ -11,7 +11,7 @@ namespace Ordering.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.ConfigureBusinessServices();
+            builder.Services.ConfigureBusinessServices(builder.Configuration);
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
 

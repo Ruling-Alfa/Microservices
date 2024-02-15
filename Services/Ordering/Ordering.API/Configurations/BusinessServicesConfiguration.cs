@@ -1,12 +1,17 @@
 ﻿using Asp.Versioning;
+using EventBus.Messages;
+using Ordering.API.EventBus.Consumer;
 
 namespace Ordering.API.Configurations
 {
     public static class BusinessServicesConfiguration
     {
-        public static IServiceCollection ConfigureBusinessServices(this IServiceCollection services)
+        public static IServiceCollection ConfigureBusinessServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.ConfigureApiVersioning();
+            services.ConfigureConsumerRabbitMQ<BasketCheckoutConsumer>(configuration);
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

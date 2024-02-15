@@ -3,6 +3,8 @@ using Basket.API.Business;
 using Basket.API.Data.Interfaces;
 using Basket.API.GrpcServices;
 using Discount.Grpc.Protos;
+using MassTransit;
+using EventBus.Messages;
 
 namespace Basket.API.Configurations
 {
@@ -12,14 +14,17 @@ namespace Basket.API.Configurations
         {
             services.AddTransient<IBasketService, BasketService>();
             services.AddScoped<DiscountGrpcService>();
-            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(c => {
-            c.Address = new Uri(configuration.GetValue<string>("GrpcSettings:DiscountGrpcUrl")!);
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(c =>
+            {
+                c.Address = new Uri(configuration.GetValue<string>("GrpcSettings:DiscountGrpcUrl")!);
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.ConfigureApiVersioning();
+
+            services.ConfigureRabbitMQ(configuration);
+
             return services;
         }
-
         public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services)
         {
             services.AddApiVersioning(o =>

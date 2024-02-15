@@ -9,6 +9,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["CrossCutting/CrossCutting.csproj", "CrossCutting/CrossCutting"]
 COPY ["Services/Catalog/Catalog.API/Catalog.API.csproj", "Services/Catalog/Catalog.API/"]
 RUN dotnet restore "./Services/Catalog/Catalog.API/./Catalog.API.csproj"
 COPY . .

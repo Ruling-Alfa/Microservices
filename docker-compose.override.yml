@@ -36,6 +36,13 @@ services:
     ports:
         - "1434:1433"
 
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   pgadmin:
     container_name: pgadmin
     environment:
@@ -81,6 +88,7 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8083
       - RedisConnectionSettings__RedisUrl=basketdb:6379
       - GrpcSettings__DiscountGrpcUrl=http://discount.grpc:8086 
+      - EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672
     depends_on:
       - basketdb
     ports:
@@ -129,6 +137,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=8088
       - ASPNETCORE_HTTPS_PORTS=8089
       - ConnectionStrings__OrderContext=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678;TrustServerCertificate=true
+      - EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672
     ports:
       - "8088:8088"
       - "8089:8089"
